@@ -72,6 +72,7 @@ erDiagram
 ```
 </details>
 
+<details>
 <summary><h3>History DB</h3></summary>
 
 ```mermaid
@@ -92,7 +93,9 @@ erDiagram
 
     Player ||--o{ Match: has
 ```
+</details>
 
+<details>
 <summary><h3>Stats DB</h3></summary>
 
 ```mermaid
@@ -113,7 +116,9 @@ erDiagram
 
     UserStats ||--|{ Stats :has
 ```
+</details>
 
+<details>
 <summary><h3>Auth DB</h3></summary>
 
 ```mermaid
@@ -126,3 +131,4 @@ erDiagram
         timestamp last_log
     }
 ```
+</details>
