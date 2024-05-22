@@ -3,28 +3,55 @@
 ## Project Infrastructure
 
 ```mermaid
-flowchart BT
-	browser["User broswer"]
-	nginx["nginx service"]
-	user["User service"]
-	globalDB[(Global DB)]
-	matchmaking["Matchmaking service"]
-	gameProvider["Game provider service"]
-	gameLauncher["Game launcher service"]
-	history["History service"]
-	tournament["Tournament service"]
-  browser --> nginx
-  browser --> user
-  user --> globalDB
-  browser --> matchmaking
-  matchmaking --> gameProvider
-  gameProvider --> gameLauncher
-  browser <--> gameLauncher
-  gameLauncher --> history
-  history --> globalDB
-  browser --> history
-  browser --> tournament
-  tournament --> gameProvider
+flowchart LR
+	nginxFront["nginx front service"]
+	browser["User browser"]
+	subgraph pongLauncher["Game launcher server"]
+        gameInstance["Game instance"]
+	    gameLauncherService["Game launcher service"]
+        gameLauncherNginx["Game service nginx"]
+	end
+    subgraph history["History server"]
+        historyNginx["History service nginx"] -->
+	    historyService["History service"] -->
+	    matchDB[(Matches DB)]
+    end
+    subgraph user["User server"]
+        userNginx["User service nginx"] -->
+        userService["User service"] -->
+	    userDB[(Users DB)]
+    end
+    subgraph stats["Stats server"]
+	    statsNginx["Stats service nginx"] -->
+	    statsService["Stats service"] -->
+	    statsDB[(Users stats DB)]
+    end
+    subgraph tournament["Tournaments server"]
+	    tournamentNginx["Tournament service nginx"] -->
+	    tournamentService["Tournament service"] -->
+	    tournamentDB[(Tournament DB)]
+    end
+    subgraph auth["Auth server"]
+        authNginx["Auth service nginx"] -->
+        authService["Auth service"] -->
+        authDB[(Auth DB)]
+    end
+    subgraph gameProvider
+	    gameProviderService["Game provider"]
+	    gameProviderNginx["Game provider nginx"]
+    end
+    browser ----------> nginxFront
+    browser ---> gameProviderNginx
+    gameProviderService ----> historyNginx & authNginx
+    gameProviderService <----> tournamentNginx
+    browser ---> statsNginx & tournamentNginx & historyNginx & authNginx
+    browser -------> userNginx
+    browser <--> gameInstance
+    gameLauncherNginx --> gameLauncherService --> gameInstance
+    gameProviderService <----> gameLauncherNginx
+    gameProviderNginx --> gameProviderService
+    gameProviderService ----> statsNginx
+	  
 ```
 
 ## DB Entities relationship
