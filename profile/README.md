@@ -26,11 +26,6 @@ flowchart LR
 	    statsService["Stats service"] -->
 	    statsDB[(Users stats DB)]
     end
-    subgraph tournament["Tournaments server"]
-	    tournamentNginx["Tournament service nginx"] -->
-	    tournamentService["Tournament service"] -->
-	    tournamentDB[(Tournament DB)]
-    end
     subgraph auth["Auth server"]
         authNginx["Auth service nginx"] -->
         authService["Auth service"] -->
@@ -43,8 +38,7 @@ flowchart LR
     browser ----------> nginxFront
     browser ---> gameProviderNginx
     gameProviderService ----> historyNginx & authNginx
-    gameProviderService <----> tournamentNginx
-    browser ---> statsNginx & tournamentNginx & historyNginx & authNginx
+    browser ---> statsNginx  & historyNginx & authNginx
     browser -------> userNginx
     browser <--> gameInstance
     gameLauncherNginx --> gameLauncherService --> gameInstance
