@@ -49,27 +49,78 @@ flowchart LR
 ```
 
 ## DB Entities relationship
+
+### User DB
+
 ```mermaid
 erDiagram
-	USER {
-		number id PK "ID of the user"
-		string username UK "Username use to log in"
-		string display_name "Display name"
-		string password "The user password"
-		number pong_elo "The pong elo for matchmaking"
-		number custom_pong_elo "The custom pong elo for matchmaking"
-		number gun_fight_elo "The gun fight elo for matchmaking"
-		string picture "The profile picture path"
-	}
-	
-	MATCH {
-		number id PK "ID of the match"
-		player1_id number FK "ID of the first player"
-		player2_id number FK "ID of the second player"
-		plater1_score number "Score of the first player"
-		plater2_score number "Score of the second player"
-		string game "Name of the game"
-	}
-	
-	USER ||--o{ MATCH : has
+    User {
+        number id PK
+        string display_name
+        string username
+        string picture_path
+    }
+
+    Friendship {
+        number user_1_id FK
+        number user_2_id FK
+        bool accepted
+    }
+
+    User }|--o{ Friendship: has
+```
+
+### History DB
+
+```mermaid
+erDiagram
+    Match {
+        number id PK
+        number player_1_id FK
+        number player_2_id FK
+        number player_1_score
+        number player_2_score
+        timestamp date
+    }
+
+    Player {
+        number id PK, FK
+        string display_name
+    }
+
+    Player ||--o{ Match: has
+```
+
+### Stats DB
+
+```mermaid
+erDiagram
+    UserStats {
+        number id PK, FK
+        number pong_stats FK
+        number custom_stats FK
+        number gun_fight_stats FK
+    }
+
+    Stats {
+        number id PK
+        number elo
+        number victories
+        number defeats
+    }
+
+    UserStats ||--|{ Stats :has
+```
+
+### Auth DB
+
+```mermaid
+erDiagram
+    userAuth {
+        number id FK
+        number tokens_cnt
+        string username
+        string hashed_password
+        timestamp last_log
+    }
 ```
