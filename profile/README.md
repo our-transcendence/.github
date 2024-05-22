@@ -50,7 +50,8 @@ flowchart LR
 
 ## DB Entities relationship
 
-### User DB
+<details>
+<summary><h3>User DB</h3></summary>
 
 ```mermaid
 erDiagram
@@ -69,8 +70,9 @@ erDiagram
 
     User }|--o{ Friendship: has
 ```
+</details>
 
-### History DB
+<summary><h3>History DB</h3></summary>
 
 ```mermaid
 erDiagram
@@ -91,7 +93,7 @@ erDiagram
     Player ||--o{ Match: has
 ```
 
-### Stats DB
+<summary><h3>Stats DB</h3></summary>
 
 ```mermaid
 erDiagram
@@ -112,7 +114,7 @@ erDiagram
     UserStats ||--|{ Stats :has
 ```
 
-### Auth DB
+<summary><h3>Auth DB</h3></summary>
 
 ```mermaid
 erDiagram
